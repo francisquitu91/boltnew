@@ -1,5 +1,5 @@
 modules = ["nodejs-20", "web", "postgresql-16"]
-run = "cd tourify2-main && npm run dev"
+run = "npm --prefix tourify2-main run dev"
 hidden = [".config", ".git", "generated-icon.png", "node_modules", "dist"]
 
 [nix]
@@ -32,5 +32,5 @@ author = "agent"
 
 [[workflows.workflow.tasks]]
 task = "shell.exec"
-args = "cd tourify2-main && npm run dev"
+args = "npm --prefix tourify2-main run dev"
 waitForPort = 5000
