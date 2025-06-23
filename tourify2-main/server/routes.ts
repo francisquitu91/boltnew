@@ -5,6 +5,19 @@ import { insertTourSchema, insertSceneSchema } from "../shared/schema.js";
 
 export async function registerRoutes(app: Express): Promise<Server> {
   // Tour routes
+  app.get("/api/tours", async (req, res) => {
+    try {
+      // For demo purposes, return all tours or create a sample one
+      const sampleTour = await storage.createTour({
+        name: "Sample 360° Tour",
+        description: "A demonstration tour"
+      });
+      res.json([sampleTour]);
+    } catch (error) {
+      res.status(500).json({ message: "Failed to get tours" });
+    }
+  });
+
   app.get("/api/tours/:id", async (req, res) => {
     try {
       const id = parseInt(req.params.id);
