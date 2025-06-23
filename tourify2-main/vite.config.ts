@@ -19,6 +19,9 @@ export default defineConfig({
     emptyOutDir: true,
   },
   server: {
+    host: "0.0.0.0",
+    port: 5000,
+    allowedHosts: ["bb284510-0107-418e-9a16-3f25d1594383-00-22cqmam50o8cd.janeway.replit.dev"],
     fs: {
       strict: false,
     },
