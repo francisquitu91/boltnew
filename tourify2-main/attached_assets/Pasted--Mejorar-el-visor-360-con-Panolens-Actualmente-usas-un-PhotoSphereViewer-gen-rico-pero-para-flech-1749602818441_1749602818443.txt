@@ -1,0 +1,103 @@
+ Mejorar el visor 360° con Panolens
+Actualmente usas un PhotoSphereViewer genérico, pero para flechas interactivas y efectos tipo drone, Panolens es ideal. Ejemplo:
+
+tsx
+import * as PANOLENS from 'panolens';
+
+function setupPanolens(panoramaUrl: string, markers: Marker[]) {
+  const viewer = new PANOLENS.Viewer({
+    container: document.getElementById('viewer-container'),
+    autoRotate: false,
+  });
+
+  const panorama = new PANOLENS.ImagePanorama(panoramaUrl);
+  
+  markers.forEach(marker => {
+    const hotspot = new PANOLENS.Infospot(350, PANOLENS.DataImage.Arrow);
+    hotspot.position.set(marker.yaw, marker.pitch, 0);
+    hotspot.addEventListener('click', () => {
+      // Navegar a la escena targetSceneId
+    });
+    panorama.add(hotspot);
+  });
+
+  viewer.add(panorama);
+}
+Ventajas:
+
+Soporta infospots personalizables (flechas, íconos, imágenes PNG).
+
+Efectos como zoom progresivo o transiciones entre escenas.
+
+2. Añadir componentes UI personalizables
+Tourify permite arrastrar íconos (drone, info, etc.) al visor. Puedes implementarlo así:
+
+tsx
+// En tu componente TourBuilder
+const [draggingIcon, setDraggingIcon] = useState<string | null>(null);
+
+// Íconos disponibles
+const ICONS = {
+  drone: '🚁',
+  arrow: '→',
+  info: 'ℹ️',
+};
+
+// Al soltar un ícono en el visor
+const handleDropHotspot = (yaw: number, pitch: number) => {
+  if (!draggingIcon) return;
+  
+  addHotspot({
+    yaw,
+    pitch,
+    type: draggingIcon,
+    label: `Hotspot ${Math.random().toString(36).slice(2, 6)}`,
+  });
+};
+UI de herramientas flotantes (como Tourify):
+
+tsx
+<div className="fixed bottom-4 left-1/2 transform -translate-x-1/2 bg-white p-2 rounded-full shadow-lg flex space-x-2">
+  {Object.entries(ICONS).map(([key, icon]) => (
+    <button
+      key={key}
+      draggable
+      onDragStart={() => setDraggingIcon(key)}
+      className="w-10 h-10 flex items-center justify-center text-xl cursor-grab"
+    >
+      {icon}
+    </button>
+  ))}
+</div>
+3. Temas y estilos personalizables
+Para permitir que los usuarios cambien colores/fuentes (como Tourify), usa CSS variables + un contexto de tema:
+
+tsx
+// Contexto de tema
+const ThemeContext = createContext({
+  primaryColor: '#3b82f6',
+  setPrimaryColor: (color: string) => {},
+});
+
+// Proveedor en App.tsx
+<ThemeContext.Provider value={{ primaryColor, setPrimaryColor }}>
+  <div style={{ '--primary': primaryColor } as React.CSSProperties}>
+    <TourBuilder />
+  </div>
+</ThemeContext.Provider>
+Selector de tema en la UI:
+
+tsx
+<input 
+  type="color" 
+  value={primaryColor} 
+  onChange={(e) => setPrimaryColor(e.target.value)} 
+/>
+📌 Conclusión
+Tu código actual ya tiene el 70% de lo necesario para replicar Tourify. Para llegar al 100%:
+
+Reemplaza PhotoSphereViewer por Panolens (para hotspots avanzados).
+
+Añade una toolbar de íconos arrastrables.
+
+Implementa un sistema de temas (colores/fuentes editables)

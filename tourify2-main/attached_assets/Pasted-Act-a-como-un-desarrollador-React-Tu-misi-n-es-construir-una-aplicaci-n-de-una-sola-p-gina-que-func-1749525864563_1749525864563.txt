@@ -1,0 +1,50 @@
+Actúa como un desarrollador React. Tu misión es construir una aplicación de una sola página que funcione como una herramienta SaaS para que los usuarios creen sus propios tours virtuales 360.
+Objetivo Central:
+El usuario debe poder subir sus propias imágenes 360 (vía URL), crear múltiples escenas con ellas, y luego conectar estas escenas entre sí mediante hotspots de navegación.
+Requisitos Fundamentales:
+Tecnología: React y react-photo-sphere-viewer.
+Gestión de Escenas por el Usuario:
+Estado Principal: Un único useState<Scene[]> que almacene un array de objetos. La estructura de cada escena debe ser: { id: string, name: string, panorama: string, markers: any[] }.
+UI para Añadir Escenas: Debe haber un formulario simple en la UI con:
+Un campo <input type="text"> para que el usuario pegue la URL de su imagen 360 (.jpg, .png).
+Un campo <input type="text"> para darle un nombre a la escena.
+Un botón "Añadir Escena" que actualice el estado scenes.
+UI para Navegar entre Escenas (Modo Construcción): Una lista o <select> que muestre las escenas creadas por el usuario, permitiéndole cambiar entre ellas para editarlas.
+Flujo de Creación de Hotspots:
+1. Clic en el Visor: El evento onClick del PhotoSphereViewer captura las coordenadas (yaw, pitch).
+2. Abrir Panel de Enlace: Este clic activa un panel de configuración. Para ello, usa un estado como useState<{ yaw: number, pitch: number } | null>('pendingHotspot').
+3. Configurar y Confirmar: El panel debe mostrar un <select> con la lista de TODAS las demás escenas creadas por el usuario. Un botón "Confirmar" crea el objeto marcador, lo añade al array markers de la escena activa en el estado scenes, y cierra el panel.
+Navegación del Tour:
+El evento onSelectMarker se dispara al hacer clic en un hotspot.
+La lógica de este evento debe leer el targetSceneId guardado en los datos del marcador (marker.config.data.targetSceneId) y actualizar el estado currentSceneId.
+Estructura del Componente Principal:
+function TourBuilder() {
+  const [scenes, setScenes] = useState([]); // El usuario construye esto
+  const [currentSceneId, setCurrentSceneId] = useState(null);
+  // ...otros estados
+
+  const activeScene = scenes.find(s => s.id === currentSceneId);
+
+  return (
+    <div>
+      {/* UI para añadir y seleccionar escenas */}
+      
+      <div className="viewer-container">
+        {activeScene ? (
+          <PhotoSphereViewer
+            src={activeScene.panorama}
+            height={'100%'}
+            width={'100%'}
+            markers={activeScene.markers || []}
+            onClick={/*...*/}
+            onSelectMarker={/*...*/}
+          />
+        ) : (
+          <div className="placeholder">Añade una escena para comenzar</div>
+        )}
+      </div>
+
+      {/* Panel de configuración de hotspots (se muestra condicionalmente) */}
+    </div>
+  );
+}

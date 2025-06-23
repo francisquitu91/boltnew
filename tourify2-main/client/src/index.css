@@ -1,0 +1,191 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+:root {
+  --background: hsl(0, 0%, 100%);
+  --foreground: hsl(20, 14.3%, 4.1%);
+  --muted: hsl(60, 4.8%, 95.9%);
+  --muted-foreground: hsl(25, 5.3%, 44.7%);
+  --popover: hsl(0, 0%, 100%);
+  --popover-foreground: hsl(20, 14.3%, 4.1%);
+  --card: hsl(0, 0%, 100%);
+  --card-foreground: hsl(20, 14.3%, 4.1%);
+  --border: hsl(20, 5.9%, 90%);
+  --input: hsl(20, 5.9%, 90%);
+  --primary: hsl(214, 100%, 59%);
+  --primary-foreground: hsl(211, 100%, 99%);
+  --secondary: hsl(60, 4.8%, 95.9%);
+  --secondary-foreground: hsl(24, 9.8%, 10%);
+  --accent: hsl(60, 4.8%, 95.9%);
+  --accent-foreground: hsl(24, 9.8%, 10%);
+  --destructive: hsl(0, 84.2%, 60.2%);
+  --destructive-foreground: hsl(60, 9.1%, 97.8%);
+  --ring: hsl(20, 14.3%, 4.1%);
+  --radius: 0.5rem;
+}
+
+.dark {
+  --background: hsl(240, 10%, 3.9%);
+  --foreground: hsl(0, 0%, 98%);
+  --muted: hsl(240, 3.7%, 15.9%);
+  --muted-foreground: hsl(240, 5%, 64.9%);
+  --popover: hsl(240, 10%, 3.9%);
+  --popover-foreground: hsl(0, 0%, 98%);
+  --card: hsl(240, 10%, 3.9%);
+  --card-foreground: hsl(0, 0%, 98%);
+  --border: hsl(240, 3.7%, 15.9%);
+  --input: hsl(240, 3.7%, 15.9%);
+  --primary: hsl(214, 100%, 59%);
+  --primary-foreground: hsl(211, 100%, 99%);
+  --secondary: hsl(240, 3.7%, 15.9%);
+  --secondary-foreground: hsl(0, 0%, 98%);
+  --accent: hsl(240, 3.7%, 15.9%);
+  --accent-foreground: hsl(0, 0%, 98%);
+  --destructive: hsl(0, 62.8%, 30.6%);
+  --destructive-foreground: hsl(0, 0%, 98%);
+  --ring: hsl(240, 4.9%, 83.9%);
+  --radius: 0.5rem;
+}
+
+@layer base {
+  * {
+    @apply border-border;
+  }
+
+  body {
+    @apply font-sans antialiased bg-background text-foreground;
+  }
+}
+
+/* PhotoSphere Viewer custom styles */
+.psv-container {
+  border-radius: 0;
+}
+
+.psv-navbar {
+  background: rgba(0, 0, 0, 0.8) !important;
+}
+
+/* Hide the navbar completely when .hide-navbar is present on the container */
+.hide-navbar .psv-navbar {
+  display: none !important;
+}
+
+/* Move the navbar visually outside the image when .show-navbar-outside is present */
+.show-navbar-outside .psv-navbar {
+  position: absolute !important;
+  left: 0;
+  right: 0;
+  top: 100%;
+  margin-top: 12px;
+  z-index: 30;
+  width: 100%;
+  border-radius: 0.5rem;
+  box-shadow: 0 4px 24px 0 rgba(0,0,0,0.15);
+  background: rgba(0,0,0,0.85) !important;
+}
+
+.show-navbar-outside {
+  overflow: visible !important;
+}
+
+.psv-button {
+  color: white !important;
+}
+
+.psv-button:hover {
+  background: rgba(255, 255, 255, 0.2) !important;
+}
+
+.psv-tooltip {
+  background: hsl(240, 10%, 3.9%) !important;
+  color: hsl(0, 0%, 98%) !important;
+  border-radius: 0.5rem !important;
+  padding: 0.5rem 0.75rem !important;
+  font-size: 0.875rem !important;
+}
+
+.psv-tooltip::before {
+  border-top-color: hsl(240, 10%, 3.9%) !important;
+}
+
+/* Remove shadows from buttons and images in carousel */
+.carousel-no-shadow,
+.carousel-no-shadow button,
+.carousel-no-shadow img {
+  box-shadow: 0 0 0 0 transparent !important;
+  filter: none !important;
+  outline: none !important;
+  border-width: 0 !important;
+}
+
+/* Carrusel sin desenfoque, fondo totalmente transparente */
+.carousel-no-shadow {
+  position: fixed;
+  left: 0;
+  right: 0;
+  bottom: 2.5rem;
+  top: auto;
+  z-index: 10;
+  width: 100vw;
+  margin: 0;
+  padding-top: 0;
+  padding-bottom: 0;
+  overflow-x: auto !important;
+  overflow-y: visible !important;
+  pointer-events: none;
+  display: flex;
+  justify-content: center;
+  max-width: 100vw;
+  -ms-overflow-style: none;  /* IE and Edge */
+  scrollbar-width: none;     /* Firefox */
+}
+
+.carousel-no-shadow::-webkit-scrollbar {
+  display: none !important;
+}
+
+.carousel-no-shadow .flex {
+  flex-wrap: nowrap;
+  gap: 2rem;
+  padding-left: 64px;
+  padding-right: 64px;
+  justify-content: flex-start;
+  align-items: center;
+  overflow: visible !important;
+  pointer-events: auto;
+  min-width: 0;
+}
+
+.carousel-no-shadow .flex > .basis-1\/6 {
+  flex: 0 0 220px;
+  height: 150px;
+  margin: 0;
+  border-radius: 1.25rem;
+  transition: transform 0.2s, box-shadow 0.2s;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  overflow: visible !important;
+  pointer-events: auto;
+}
+
+.carousel-no-shadow .flex > .basis-1\/6:hover {
+  transform: scale(1.18);
+  z-index: 20;
+  box-shadow: 0 12px 48px 0 rgba(0,0,0,0.18);
+}
+
+/* Botón de navegación del carrusel más visible */
+.carousel-no-shadow .absolute.h-8.w-8.rounded-full {
+  background: rgba(255,255,255,0.85) !important;
+  color: #222 !important;
+  box-shadow: 0 2px 8px 0 rgba(0,0,0,0.10);
+  border: none;
+  transition: background 0.2s, color 0.2s;
+}
+.carousel-no-shadow .absolute.h-8.w-8.rounded-full:hover {
+  background: #10b981 !important;
+  color: #fff !important;
+}
