@@ -2,12 +2,15 @@
   base = "tourify2-main"
   publish = "client/dist"
   command = "npm run build:client"
+  functions = "netlify/functions"
+
+[build.environment]
+  NODE_VERSION = "20"
 
 [[redirects]]
   from = "/api/*"
-  to = "https://bb284510-0107-418e-9a16-3f25d1594383-00-22cqmam50o8cd.janeway.replit.dev/api/:splat"
+  to = "/.netlify/functions/:splat"
   status = 200
-  force = true
 
 [[redirects]]
   from = "/*"
